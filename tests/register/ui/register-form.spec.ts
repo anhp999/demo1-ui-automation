@@ -1,0 +1,78 @@
+import { test, expect } from '../../../src/fixtures/custom-fixtures';
+
+test.describe("Register Form", () => {
+  test("TC-003: Verify Placeholder Text ", async ({ registerPage }) => {
+
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    const txtPhAccount = await registerPage.getTextLblAccount()
+    const actualAccount = 'Tài Khoản *'
+    
+    const txtPhPwd = await registerPage.getTextLblPwd()
+    const actualPwd = 'Mật Khẩu *'
+
+    const txtPhConfirmPwd = await registerPage.getTextLblConfirmPwd()
+    const actualConfirmPwd = 'Nhập lại mật khẩu *'
+
+    const txtPhFullName = await registerPage.getTextLblFullName()
+    const actualFullName = 'Họ Tên *'
+
+    const txtPhEmail = await registerPage.getTextLblEmail()
+    const actualEmail = 'Email *'
+
+    expect(txtPhAccount).toStrictEqual(actualAccount)
+    expect(txtPhPwd).toStrictEqual(actualPwd)
+    expect(txtPhConfirmPwd).toStrictEqual(actualConfirmPwd)
+    expect(txtPhFullName).toStrictEqual(actualFullName)
+    expect(txtPhEmail).toStrictEqual(actualEmail)
+  });
+
+  test("TC-005: Verify Login Link In Register Form", async ({ registerPage }) => {
+
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    const link = registerPage.getlnkLogin()
+    expect(link).toHaveCSS('color', 'rgb(0, 0, 238)')
+    
+    const activeLink = await registerPage.rightClick()
+    expect(activeLink).toHaveCSS('color', 'rgb(255, 0, 0)')
+
+    const titleLogin = await (await registerPage.directToLogin()).getTxtTitle()
+    expect(titleLogin).toStrictEqual('Đăng nhập')
+  });
+
+  test("TC-008: Verify Register Input When Focus On Each One", async ({ registerPage }) => {
+
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    const actualLblAlert = 'Đây là trường bắt buộc !'
+    
+    await registerPage.focusInputFields('account')
+    await registerPage.focusInputFields('pwd')
+    await registerPage.focusInputFields('confirm_pwd')
+    await registerPage.focusInputFields('fullname')
+    await registerPage.focusInputFields('email')
+
+    expect(registerPage.getFields('account')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
+    expect(registerPage.getFields('pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
+    expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
+    expect(registerPage.getFields('fullname')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
+    expect(registerPage.getFields('email')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
+
+    expect(await registerPage.getAlertInfo()).toStrictEqual(actualLblAlert)
+    expect(registerPage.getlblAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
+
+  });
+  test("TC-010: Verify the presence of password visibility toggle", async ({ registerPage }) => {
+
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    
+    expect(registerPage.getIconHiddenPwd()).toBeVisible()
+    expect(registerPage.getIconHiddenConfirmPwd()).toBeVisible()
+
+  });
+
+  test("TC-011: Verify access the register page by register button", async ({ registerPage }) => {
+
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn");
+    const title = await registerPage.directToRegisterPage()
+    expect(title).toBeVisible()
+  });
+});
