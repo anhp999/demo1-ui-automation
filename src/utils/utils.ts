@@ -12,7 +12,16 @@ const NUMBERS = '0123456789';
 const STRING = UPPER + LOWER
 const SPECIAL = '!@#$%^&*()_+-={}[]|:;<>,.?/';
 const EMOJIS = ['😀', '😁', '😂', '🤣', '😅', '😊', '😍', '🤩', '😎', '🤯', '😡', '😱'];
+const sheetName = new Date().toISOString().split('T')[0];
 
+type ExcelDataType = {
+    TCID: string
+    Username: string
+    Email: string
+    Password: string
+    ConfirmPassword: string
+    FullName: string
+}
 export async function gnwDataToFile(tcId: string) {
     const { username, pwd, confirmPwd, fullname, email } = generateUser()
     await writeExcel(tcId, {
@@ -106,6 +115,11 @@ export function generateEmailBy(length: number): string {
     return username + domain;
 }
 
+export async function readDataFromSheet(): Promise<ExcelDataType[]> {
+    const filePath = 'test-data/data.xlsx'
+    const data = await readExcel(filePath, sheetName)
+    return data
+}
 
 export async function writeExcel(tcId: string, data: RegisterForm) {
     const folderPath = path.join('test-data');
@@ -121,12 +135,11 @@ export async function writeExcel(tcId: string, data: RegisterForm) {
         await workbook.xlsx.readFile(filePath);
     }
 
-    const sheetName = new Date().toISOString().split('T')[0];
 
     let sheet = workbook.getWorksheet(sheetName);
     if (!sheet) {
         sheet = workbook.addWorksheet(sheetName);
-        sheet.addRow(['TC-ID', 'Username', 'Email', 'Password', 'ConfirmPassword', 'FullName']);
+        sheet.addRow(['TCID', 'Username', 'Email', 'Password', 'ConfirmPassword', 'FullName']);
     }
 
     sheet.addRow([
@@ -141,6 +154,36 @@ export async function writeExcel(tcId: string, data: RegisterForm) {
     await workbook.xlsx.writeFile(filePath);
 }
 
+
+export async function readExcel(filePath: string, sheetName: string) {
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.readFile(filePath);
+
+    const sheet = workbook.getWorksheet(sheetName);
+
+    if (!sheet) {
+        throw new Error(`Sheet "${sheetName}" not found in file: ${filePath}`);
+    }
+    const rows: any[] = [];
+    let headers: string[] = [];
+
+    sheet.eachRow((row, rowNumber) => {
+        const values = (row.values as any[]).slice(1);
+
+        if (rowNumber === 1) {
+            // header row
+            headers = values;
+        } else {
+            const obj: any = {};
+            values.forEach((value: any, index: any) => {
+                obj[headers[index]] = value ?? "";
+            });
+            rows.push(obj);
+        }
+    });
+
+    return rows;
+}
 
 export function generateStrongPassword(length = 10) {
     const mustHave = [

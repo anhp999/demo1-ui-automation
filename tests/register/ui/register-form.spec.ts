@@ -56,8 +56,8 @@ test.describe("Register Form", () => {
     expect(registerPage.getFields('fullname')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
     expect(registerPage.getFields('email')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
 
-    expect(await registerPage.getAlertInfo()).toStrictEqual(actualLblAlert)
-    expect(registerPage.getlblAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
+    expect(await registerPage.getUNAlertInfo()).toStrictEqual(actualLblAlert)
+    expect(registerPage.getlblUNAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
 
   });
   test("TC-010: Verify the presence of password visibility toggle", async ({ registerPage }) => {

@@ -1,4 +1,4 @@
-import { generateFullName, generateUsername, generateUser, gnwDataToFile, generateEmailBy, generateStrongPassword } from '@src/utils/utils';
+import { generateFullName, generateUsername, generateUser, gnwDataToFile, generateEmailBy, generateStrongPassword, readDataFromSheet } from '@src/utils/utils';
 import { test, expect } from '../../../src/fixtures/custom-fixtures';
 
 test.describe("Register Validation", () => {
@@ -1107,5 +1107,39 @@ test.describe("Register Validation", () => {
         expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getConfPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblConfPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
+    });
+
+    test("TC-069a: Verify if register account that is existed", async ({ registerPage }) => {
+        await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+        
+        const data = await readDataFromSheet()
+        
+        const userEmailInvalid = generateUser({
+            username: data[0].Username,
+            pwd: '',
+            confirmPwd: '',
+            fullname: '',
+            email: ''
+        })
+
+        await registerPage.register(userEmailInvalid)
+        
+    });
+
+    test("TC-069b: Verify if register email that is existed", async ({ registerPage }) => {
+        await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+        
+        const data = await readDataFromSheet()
+        
+        const userEmailInvalid = generateUser({
+            username: data[0].Username,
+            pwd: '',
+            confirmPwd: '',
+            fullname: '',
+            email: ''
+        })
+
+        await registerPage.register(userEmailInvalid)
+        
     });
 });
