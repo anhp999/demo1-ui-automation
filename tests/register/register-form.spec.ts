@@ -1,4 +1,4 @@
-import { test, expect } from '../../../src/fixtures/custom-fixtures';
+import { test, expect } from '../../src/fixtures/custom-fixtures';
 
 test.describe("Register Form", () => {
   test("TC-003: Verify Placeholder Text ", async ({ registerPage }) => {
@@ -6,7 +6,7 @@ test.describe("Register Form", () => {
     await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
     const txtPhAccount = await registerPage.getTextLblAccount()
     const actualAccount = 'Tài Khoản *'
-    
+
     const txtPhPwd = await registerPage.getTextLblPwd()
     const actualPwd = 'Mật Khẩu *'
 
@@ -31,7 +31,7 @@ test.describe("Register Form", () => {
     await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
     const link = registerPage.getlnkLogin()
     expect(link).toHaveCSS('color', 'rgb(0, 0, 238)')
-    
+
     const activeLink = await registerPage.rightClick()
     expect(activeLink).toHaveCSS('color', 'rgb(255, 0, 0)')
 
@@ -43,7 +43,7 @@ test.describe("Register Form", () => {
 
     await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
     const actualLblAlert = 'Đây là trường bắt buộc !'
-    
+
     await registerPage.focusInputFields('account')
     await registerPage.focusInputFields('pwd')
     await registerPage.focusInputFields('confirm_pwd')
@@ -63,7 +63,7 @@ test.describe("Register Form", () => {
   test("TC-010: Verify the presence of password visibility toggle", async ({ registerPage }) => {
 
     await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-    
+
     expect(registerPage.getIconHiddenPwd()).toBeVisible()
     expect(registerPage.getIconHiddenConfirmPwd()).toBeVisible()
 
@@ -74,5 +74,28 @@ test.describe("Register Form", () => {
     await registerPage.navigateTo("https://demo1.cybersoft.edu.vn");
     const title = await registerPage.directToRegisterPage()
     expect(title).toBeVisible()
+  });
+
+  test('TC-070: Ensure that the password characters are hidden when typing', async ({ registerPage }) => {
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    await registerPage.enterPassword('Test@1234');
+    await registerPage.enterConfirmPassword('Test@1234');
+
+    await expect(registerPage.getTxtPwdRegis()).toHaveAttribute('type', 'password');
+    await expect(registerPage.getTxtConfirmPwd()).toHaveAttribute('type', 'password');
+  });
+
+
+
+  test('TC-071: Toggle show/hide password', async ({ registerPage }) => {
+    await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
+    await registerPage.enterPassword('Test@1234');
+    await registerPage.enterConfirmPassword('Test@1234');
+
+    await registerPage.togglePassword()
+    await expect(registerPage.getTxtPwdRegis()).toHaveAttribute('type', 'text');
+
+    await registerPage.togglePassword()
+    await expect(registerPage.getTxtPwdRegis()).toHaveAttribute('type', 'password');
   });
 });

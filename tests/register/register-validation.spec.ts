@@ -1,5 +1,5 @@
 import { generateFullName, generateUsername, generateUser, gnwDataToFile, generateEmailBy, generateStrongPassword, readDataFromSheet } from '@src/utils/utils';
-import { test, expect } from '../../../src/fixtures/custom-fixtures';
+import { test, expect } from '../../src/fixtures/custom-fixtures';
 
 test.describe("Register Validation", () => {
     test("TC-012: Verify entering valid values into the input fields.", async ({ registerPage }) => {
@@ -31,7 +31,7 @@ test.describe("Register Validation", () => {
         expect(await registerPage.getFNAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblUNAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
     });
-    
+
     test("TC-015: Verify username with special characters", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
 
@@ -444,7 +444,7 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userFNInvalid, fullname: ''})
+        await registerPage.register({ ...userFNInvalid, fullname: '' })
 
         const actualLblAlert = 'Đây là trường bắt buộc !'
 
@@ -464,7 +464,7 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userFNInvalid, fullname: '             '})
+        await registerPage.register({ ...userFNInvalid, fullname: '             ' })
 
         const actualLblAlert = 'Họ tên chứa ký tự không hợp lệ !'
 
@@ -522,7 +522,7 @@ test.describe("Register Validation", () => {
     test("TC-040: Verify if the Email has length = 4", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
 
-        const email =  generateEmailBy(4)
+        const email = generateEmailBy(4)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -545,7 +545,7 @@ test.describe("Register Validation", () => {
     test("TC-041: Verify if the Email has length = 5", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
 
-        const email =  generateEmailBy(5)
+        const email = generateEmailBy(5)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -564,8 +564,8 @@ test.describe("Register Validation", () => {
     });
     test("TC-042: Verify if the Email has length = 6", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
-        const email =  generateEmailBy(6)
+
+        const email = generateEmailBy(6)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -585,8 +585,8 @@ test.describe("Register Validation", () => {
 
     test("TC-043: Verify if the Email has length = 149", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
-        const email =  generateEmailBy(149)
+
+        const email = generateEmailBy(149)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -606,8 +606,8 @@ test.describe("Register Validation", () => {
 
     test("TC-044: Verify if the Email has length = 150", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
-        const email =  generateEmailBy(150)
+
+        const email = generateEmailBy(150)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -627,8 +627,8 @@ test.describe("Register Validation", () => {
 
     test("TC-045: Verify if the Email has length = 151", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
-        const email =  generateEmailBy(150)
+
+        const email = generateEmailBy(150)
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -649,7 +649,7 @@ test.describe("Register Validation", () => {
 
     test("TC-046: Verify if the Email is empty", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -658,7 +658,7 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, email: ''})
+        await registerPage.register({ ...userEmailInvalid, email: '' })
         const actualLblAlert = 'Đây là trường bắt buộc !'
 
         expect(registerPage.getFields('email')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
@@ -668,7 +668,7 @@ test.describe("Register Validation", () => {
 
     test("TC-047: Verify if the Email contains only spaces", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -677,7 +677,7 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, email: '                   '})
+        await registerPage.register({ ...userEmailInvalid, email: '                   ' })
         const actualLblAlert = 'Dữ liệu không hợp lệ!'
 
         expect(registerPage.getFields('email')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
@@ -687,7 +687,7 @@ test.describe("Register Validation", () => {
 
     test("TC-048: Verify if the Email contains spaces and characters", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -705,7 +705,7 @@ test.describe("Register Validation", () => {
     });
     test("TC-049: Verify if the email contains consecutive dots.", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -723,7 +723,7 @@ test.describe("Register Validation", () => {
     });
     test("TC-050: Verify if the email starts with consecutive dots.", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -741,7 +741,7 @@ test.describe("Register Validation", () => {
     });
     test("TC-051: Verify if the email without top-level domain", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -759,7 +759,7 @@ test.describe("Register Validation", () => {
     });
     test("TC-052: Verify when the email address contains consecutive dots after the domain", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -778,7 +778,7 @@ test.describe("Register Validation", () => {
 
     test("TC-053: Verify when the password valid", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -797,7 +797,7 @@ test.describe("Register Validation", () => {
 
     test("TC-054: Verify if password's length = 7", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = generateStrongPassword(7)
         const userEmailInvalid = generateUser({
             username: '',
@@ -818,7 +818,7 @@ test.describe("Register Validation", () => {
 
     test("TC-058: Verify if password's length = 33", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = generateStrongPassword(33)
         const userEmailInvalid = generateUser({
             username: '',
@@ -839,7 +839,7 @@ test.describe("Register Validation", () => {
 
     test("TC-056: Verify if password's length = 31", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = generateStrongPassword(31)
         const userEmailInvalid = generateUser({
             username: '',
@@ -859,7 +859,7 @@ test.describe("Register Validation", () => {
 
     test("TC-057: Verify if password's length = 32", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = generateStrongPassword(32)
         const userEmailInvalid = generateUser({
             username: '',
@@ -876,10 +876,10 @@ test.describe("Register Validation", () => {
         expect(registerPage.getTxtAccountRegis()).toBeEmpty()
         expect(await loginPage.getTxtTitle()).toStrictEqual("Đăng nhập")
     });
-    
+
     test("TC-059: Verify if password without Upper letter", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = 'abcdef1!'
         const userEmailInvalid = generateUser({
             username: '',
@@ -900,7 +900,7 @@ test.describe("Register Validation", () => {
 
     test("TC-060: Verify if password without Lower letter", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = 'ABCDEF1!'
         const userEmailInvalid = generateUser({
             username: '',
@@ -921,7 +921,7 @@ test.describe("Register Validation", () => {
 
     test("TC-061: Verify if password without digits", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = 'Abcdefgh!'
         const userEmailInvalid = generateUser({
             username: '',
@@ -942,7 +942,7 @@ test.describe("Register Validation", () => {
 
     test("TC-062: Verify if password without special characters", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = 'Abcdef12'
         const userEmailInvalid = generateUser({
             username: '',
@@ -963,7 +963,7 @@ test.describe("Register Validation", () => {
 
     test("TC-063: Verify if password different from confirm password", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const password = generateStrongPassword()
         const userEmailInvalid = generateUser({
             username: '',
@@ -984,7 +984,7 @@ test.describe("Register Validation", () => {
 
     test("TC-064: Verify if password and confirm password are empty", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -993,7 +993,7 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, pwd: '', confirmPwd: ''})
+        await registerPage.register({ ...userEmailInvalid, pwd: '', confirmPwd: '' })
 
         const actualLblAlert = 'Đây là trường bắt buộc !'
 
@@ -1003,7 +1003,7 @@ test.describe("Register Validation", () => {
         expect(await registerPage.getPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
 
-                
+
         expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getConfPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblConfPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
@@ -1011,7 +1011,7 @@ test.describe("Register Validation", () => {
 
     test("TC-065: Verify if only confirm password is empty", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const pwd = generateStrongPassword()
         const userEmailInvalid = generateUser({
             username: '',
@@ -1021,12 +1021,12 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, confirmPwd: ''})
+        await registerPage.register({ ...userEmailInvalid, confirmPwd: '' })
 
         const actualLblAlert = 'Đây là trường bắt buộc !'
 
         expect(registerPage.getRegisMsgLocator()).not.toBeVisible()
-                
+
         expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getConfPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblConfPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
@@ -1034,7 +1034,7 @@ test.describe("Register Validation", () => {
 
     test("TC-066: Verify if only password is empty", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const pwd = generateStrongPassword()
         const userEmailInvalid = generateUser({
             username: '',
@@ -1044,12 +1044,12 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, pwd: ''})
+        await registerPage.register({ ...userEmailInvalid, pwd: '' })
 
         const actualLblAlert = 'Đây là trường bắt buộc !'
 
         expect(registerPage.getRegisMsgLocator()).not.toBeVisible()
-                
+
         expect(registerPage.getFields('pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
@@ -1057,7 +1057,7 @@ test.describe("Register Validation", () => {
 
     test("TC-067: Verify if password and confirm password contain only spaces", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '',
@@ -1066,17 +1066,17 @@ test.describe("Register Validation", () => {
             email: ''
         })
 
-        await registerPage.register({ ...userEmailInvalid, pwd: '       ', confirmPwd: '       '})
+        await registerPage.register({ ...userEmailInvalid, pwd: '       ', confirmPwd: '       ' })
 
         const actualLblAlert = 'Mật khẩu không hợp lệ !'
 
         expect(registerPage.getRegisMsgLocator()).not.toBeVisible()
-                
+
         expect(registerPage.getFields('pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
 
-                
+
         expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getConfPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblConfPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
@@ -1084,7 +1084,7 @@ test.describe("Register Validation", () => {
 
     test("TC-068: Verify if password and confirm password contain emoji", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const userEmailInvalid = generateUser({
             username: '',
             pwd: '🤫🤫🤫🤫🤫🤫',
@@ -1098,12 +1098,12 @@ test.describe("Register Validation", () => {
         const actualLblAlert = 'Mật khẩu không hợp lệ !'
 
         expect(registerPage.getRegisMsgLocator()).not.toBeVisible()
-                
+
         expect(registerPage.getFields('pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
 
-                
+
         expect(registerPage.getFields('confirm_pwd')).toHaveCSS('border-color', 'rgb(244, 67, 54)')
         expect(await registerPage.getConfPwdAlertInfo()).toStrictEqual(actualLblAlert)
         expect(registerPage.getlblConfPwdAlertInfo()).toHaveCSS('color', 'rgb(244, 67, 54)')
@@ -1111,9 +1111,9 @@ test.describe("Register Validation", () => {
 
     test("TC-069a: Verify if register account that is existed", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const data = await readDataFromSheet()
-        
+
         const userEmailInvalid = generateUser({
             username: data[0].Username,
             pwd: '',
@@ -1123,23 +1123,28 @@ test.describe("Register Validation", () => {
         })
 
         await registerPage.register(userEmailInvalid)
-        
+
+        const actualLblAlert = 'Tài khoản đã tồn tại!'
+        expect(registerPage.getlblAlert()).toHaveText(actualLblAlert)
+        expect(registerPage.getlblAlert()).toHaveCSS('color', 'rgb(97, 26, 21)')
     });
 
     test("TC-069b: Verify if register email that is existed", async ({ registerPage }) => {
         await registerPage.navigateTo("https://demo1.cybersoft.edu.vn/sign-up");
-        
+
         const data = await readDataFromSheet()
-        
+
         const userEmailInvalid = generateUser({
-            username: data[0].Username,
+            username: '',
             pwd: '',
             confirmPwd: '',
             fullname: '',
-            email: ''
+            email: data[0].Email
         })
 
         await registerPage.register(userEmailInvalid)
-        
+        const actualLblAlert = 'Email đã tồn tại!'
+        expect(registerPage.getlblAlert()).toHaveText(actualLblAlert)
+        expect(registerPage.getlblAlert()).toHaveCSS('color', 'rgb(97, 26, 21)')
     });
 });

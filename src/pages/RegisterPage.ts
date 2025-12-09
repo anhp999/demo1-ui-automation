@@ -43,7 +43,6 @@ export class RegisterPage extends CommonPage {
     //error locator
     readonly lblAlert = this.page.getByRole('alert')
     readonly icoAlert = this.page.getByRole('alert').locator('svg')
-    // readonly lblEmailError = this.page.getByText('Email đã tồn tại!')
     
     readonly taikhoan = this.page.locator('.MuiOutlinedInput-root.Mui-error fieldset')
     constructor(page: Page) {
@@ -108,6 +107,14 @@ export class RegisterPage extends CommonPage {
 
     getIconHiddenConfirmPwd() {
         return this.icoHiddenConfirmPwd
+    }
+
+    getTxtPwdRegis() {
+        return this.txtPwdRegis
+    }
+
+    getTxtConfirmPwd() {
+        return this.txtConfirmPwd
     }
 
 
@@ -253,4 +260,11 @@ export class RegisterPage extends CommonPage {
         return await this.getText(this.lblEmail)
     }
 
+    async togglePassword() {
+        await this.icoHiddenPwd.click()
+    }
+
+    async getTxtTitle(): Promise<string | null> {
+        return await this.getText(this.lblTitle)
+    }
 }

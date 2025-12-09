@@ -1,5 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { CommonPage } from "../common/CommonPage";
+import { RegisterPage } from "./RegisterPage";
+type LoginFields = 'account' | 'pwd'
 
 export class LoginPage extends CommonPage {
 
@@ -8,13 +10,50 @@ export class LoginPage extends CommonPage {
     readonly btnLogin = this.page.getByRole('button', { name: 'Đăng nhập' });
     readonly lblLoginMsg = this.page.getByRole('heading', { name: 'Đăng nhập thành công' });
     readonly lblTitle = this.page.getByRole('heading', { name: 'Đăng nhập', exact: true });
-    
+    readonly icoHiddenPwd = this.page.getByRole('button').first()
+    readonly lnkRegis = this.page.getByRole('link', { name: 'Bạn chưa có tài khoản? Đăng ký' })
+    readonly lblAccount = this.page.locator('#taiKhoan-label')
+    readonly lblPwd = this.page.locator('#matKhau-label')
+    readonly lblUNAlertInfo = this.page.locator('#taiKhoan-helper-text') 
+    readonly lblPwdAlertInfo = this.page.locator('#matKhau-helper-text')
+
     constructor(page: Page) {
         super(page);
     }
 
     getLoginMsgLocator(): Locator {
         return this.lblLoginMsg;
+    }
+
+    getTxtPasswordLogin(): Locator {
+        return this.txtPasswordLogin
+    }
+
+    getLnkRegis(): Locator {
+        return this.lnkRegis
+    }
+
+    getTxtAccountLogin(): Locator {
+        return this.txtAccountLogin
+    }
+
+    getLblUNAlertInfo(): Locator {
+        return this.lblUNAlertInfo
+    }
+
+    getLblPwdAlertInfo(): Locator {
+        return this.lblPwdAlertInfo
+    }
+
+    getFieldsetBy(locator: Locator): Locator {
+        const outline = locator
+            .locator('xpath=ancestor::div[contains(@class, "MuiOutlinedInput-root")]')
+            .locator('fieldset');
+        return outline
+    }
+
+    getLblTitle(): Locator {
+        return this.lblTitle
     }
 
     async enterUserName(value: string) {
@@ -43,4 +82,64 @@ export class LoginPage extends CommonPage {
         return await this.getText(this.lblTitle)
     }
 
+    async togglePassword() {
+        await this.icoHiddenPwd.click()
+    }
+
+    async rightClick() {
+        await this.lnkRegis.click({
+            button: 'right'
+        })
+
+        return this.lnkRegis
+    }
+
+    async directToLogin(): Promise<RegisterPage> {
+        await this.click(this.lnkRegis);
+
+        return new RegisterPage(this.page)
+    }
+
+    async getLblAccount(): Promise<string | null> {
+        return await this.getText(this.lblAccount)
+    }
+
+    async getLblPwd(): Promise<string | null> {
+        return await this.getText(this.lblPwd)
+    }
+
+    async focusInputFields(field: LoginFields): Promise<void> {
+        switch (field) {
+            case "account":
+                await this.focus(this.txtAccountLogin)
+            case "pwd":
+                await this.focus(this.txtPasswordLogin)
+            default:
+                break
+        }
+    }
+
+    getFields(fields: LoginFields): Locator {
+        let locator: Locator
+        switch (fields) {
+            case 'account':
+                locator = this.txtAccountLogin
+                break
+            case 'pwd':
+                locator = this.txtPasswordLogin
+                break
+            default:
+                throw new Error('Field Is Not Existed')
+        }
+
+        return this.getFieldsetBy(locator)
+    }
+
+    async getUNAlertInfo(): Promise<string | null> {
+        return await this.getText(this.lblUNAlertInfo)
+    }
+
+    async getPwdAlertInfo(): Promise<string | null> {
+        return await this.getText(this.lblPwdAlertInfo)
+    }
 }
