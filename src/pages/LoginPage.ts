@@ -17,6 +17,9 @@ export class LoginPage extends CommonPage {
     readonly lblUNAlertInfo = this.page.locator('#taiKhoan-helper-text') 
     readonly lblPwdAlertInfo = this.page.locator('#matKhau-helper-text')
 
+    readonly chkRememberMe = this.page.locator("//input[@name='remember']")
+    readonly lblAlert = this.page.getByRole('alert')
+
     constructor(page: Page) {
         super(page);
     }
@@ -56,6 +59,10 @@ export class LoginPage extends CommonPage {
         return this.lblTitle
     }
 
+    getLblAlert(): Locator {
+        return this.lblAlert
+    }
+
     async enterUserName(value: string) {
         await this.fill(this.txtAccountLogin, value);
     }
@@ -72,6 +79,12 @@ export class LoginPage extends CommonPage {
         await this.enterUserName(userName);
         await this.enterPassword(password);
         await this.click(this.btnLogin);
+    }
+
+    async loginByEnter(userName: string, password: string) {
+        await this.enterUserName(userName);
+        await this.enterPassword(password);
+        await this.page.keyboard.press('Enter');
     }
 
     async getLoginMessage(): Promise<string | null> {
@@ -141,5 +154,14 @@ export class LoginPage extends CommonPage {
 
     async getPwdAlertInfo(): Promise<string | null> {
         return await this.getText(this.lblPwdAlertInfo)
+    }
+
+    async toggleRememberMe() {
+        await this.click(this.chkRememberMe)
+    }
+
+    async clearForm() {
+        await this.getTxtAccountLogin().clear()
+        await this.getTxtPasswordLogin().clear()
     }
 }

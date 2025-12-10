@@ -5,11 +5,20 @@ export class TopBarNavigation extends BasePage {
 
     readonly lnkLogin = this.page.locator("//h3[text()='Đăng Nhập']");
     readonly lnkRegister = this.page.locator("//a[@href='/sign-up']");
+    readonly lnkLogout = this.page.getByRole('link', { name: 'Đăng xuất' })
     readonly menuItem = "//div[@text='%s']"; //xpath string dynamic
     readonly userProfile = "Avatar %s";
 
+    readonly lblLogoutMsg = this.page.locator("#swal2-title")
+    readonly btnConfirmLogout = this.page.getByRole('button', { name: 'Đồng ý' })
+    readonly btnCancelLogout = this.page.getByRole('button', { name: 'Hủy' })
+
     constructor(page: Page) {
         super(page);
+    }
+
+    getLnkLogin():Locator {
+        return this.lnkLogin
     }
 
     getUserProfileLocator(userName: string): Locator {
@@ -23,6 +32,11 @@ export class TopBarNavigation extends BasePage {
 
     async navigateRegisterPage() {
         await this.click(this.lnkRegister);
+    }
+
+    async logout() {
+        await this.click(this.lnkLogout);
+        await this.click(this.btnConfirmLogout);
     }
 
     async openMenuItem(item: string) {

@@ -162,7 +162,7 @@ export async function readExcel(filePath: string, sheetName: string) {
     const sheet = workbook.getWorksheet(sheetName);
 
     if (!sheet) {
-        throw new Error(`Sheet "${sheetName}" not found in file: ${filePath}`);
+        return []
     }
     const rows: any[] = [];
     let headers: string[] = [];
