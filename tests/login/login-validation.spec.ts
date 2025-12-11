@@ -171,7 +171,6 @@ test.describe("Login Functional Test", () => {
         username,
         password
       );
-      await loginPage.clearForm()
     }
 
     const actualAlertMsg = "Tài khoản hoặc mật khẩu không đúng!"
@@ -179,35 +178,67 @@ test.describe("Login Functional Test", () => {
     expect(loginPage.getLblAlert()).toHaveCSS('color', 'rgb(97, 26, 21)')
     expect(loginPage.getLblAlert()).toHaveText(actualAlertMsg)
   });
-  //   test("TC0100: Login failed 6 times", async ({ homePage, loginPage }) => {
-  //   await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
-  //   await homePage.topBarNavigation.navigateLoginPage();
-  //   const n = 1
-  //   const data = await readDataFromSheet()
-  //   const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
-  //   const password = data[0]?.Password || "Test123456@"
-  //   const fullname = data[0]?.FullName || "John Kenny"
+  test("TC0100: Login failed 6 times", async ({ homePage, loginPage }) => {
+    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.topBarNavigation.navigateLoginPage();
+    const n = 6
+    const data = await readDataFromSheet()
+    const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
+    const password = data[0]?.Password || "Test123456@"
+    const fullname = data[0]?.FullName || "John Kenny"
 
-  //   for (let i = 1; i <= n; i++) {
-  //     await loginPage.login(
-  //       username,
-  //       'invalidpassword'
-  //     );
-  //     await loginPage.clearForm()
-  //   }
+    for (let i = 1; i <= n; i++) {
+      await loginPage.login(
+        username,
+        'invalidpassword'
+      );
+    }
 
-  //   await expect(loginPage.getTxtAccountLogin()).toBeEmpty()
-  //   await expect(loginPage.getTxtPasswordLogin()).toBeEmpty()
- 
-  //   await loginPage.login(
-  //     username,
-  //     password
-  //   );
+    await loginPage.login(
+      username,
+      password
+    );
 
-  //   await expect(loginPage.getLoginMsgLocator()).toBeVisible();
-  //   await expect(
-  //     homePage.topBarNavigation.getUserProfileLocator(fullname)
-  //   ).toBeVisible();
-  //   await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
-  // });
+    await expect(loginPage.getLoginMsgLocator()).toBeVisible();
+    await expect(
+      homePage.topBarNavigation.getUserProfileLocator(fullname)
+    ).toBeVisible();
+    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+  });
+
+  test("TC0101: Access login page after login successfully", async ({ homePage, loginPage }) => {
+    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.topBarNavigation.navigateLoginPage();
+    const data = await readDataFromSheet()
+    const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
+    const password = data[0]?.Password || "Test123456@"
+
+    await loginPage.login(
+      username,
+      password
+    );
+    await expect(loginPage.getLoginMsgLocator()).toBeVisible();
+
+    await loginPage.navigateTo('https://demo1.cybersoft.edu.vn/sign-in')
+    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+
+  });
+
+  test("TC0102: Access register page after login successfully", async ({ homePage, loginPage, registerPage }) => {
+    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.topBarNavigation.navigateLoginPage();
+    const n = 6
+    const data = await readDataFromSheet()
+    const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
+    const password = data[0]?.Password || "Test123456@"
+
+    await loginPage.login(
+      username,
+      password
+    );
+    await expect(loginPage.getLoginMsgLocator()).toBeVisible();
+
+    await registerPage.navigateTo('https://demo1.cybersoft.edu.vn/sign-up')
+    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+  });
 });

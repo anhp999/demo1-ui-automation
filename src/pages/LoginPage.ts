@@ -160,8 +160,4 @@ export class LoginPage extends CommonPage {
         await this.click(this.chkRememberMe)
     }
 
-    async clearForm() {
-        await this.getTxtAccountLogin().clear()
-        await this.getTxtPasswordLogin().clear()
-    }
 }
