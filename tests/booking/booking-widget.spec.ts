@@ -3,19 +3,21 @@ test.describe("Booking Widget", () => {
     test("TC0103: Verify list of cinemas based on movie", async ({ homePage }) => {
         await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
         const film = '9387'
+        const expectCount = 2
         await homePage.quickBookingWidget.selectFilm(film)
-        
-        //missing expect
+        const option = homePage.quickBookingWidget.getCinemaOptions()
+        await expect(option).toHaveCount(expectCount)
     })
 
     test("TC0104: Verify available date based on cinema and movie", async ({ homePage }) => {
         await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
         const film = '9387'
         const cinema = 'cns-quoc-thanh'
+        const expectCount = 1
         await homePage.quickBookingWidget.selectFilm(film)
         await homePage.quickBookingWidget.selectCinema(cinema)
-        
-        //missing expect
+        const option = homePage.quickBookingWidget.getDateOptions()
+        await expect(option).toHaveCount(expectCount)
     })
 
     test("TC0110: Verify booking widget", async ({ homePage }) => {

@@ -6,23 +6,27 @@ export class QuickBookingWidget extends BasePage {
     private readonly selFilm = this.page.locator("//select[@name='film']")
     private readonly selCinema = this.page.locator("//select[@name='cinema']")
     private readonly selDate = this.page.locator("//select[@name='date']")
-    private readonly btnBuyTicket = this.page.locator("//button[span[text()='MUA VÉ NGAY']")
+    private readonly btnBuyTicket = this.page.getByRole('button', { name: 'MUA VÉ NGAY' })
     private readonly txtAlert = this.page.locator("#swal2-title")
     private readonly btnClose = this.page.locator(".swal2-close")
+
+    private readonly optCine = this.selCinema.locator('option:not([disabled])')
+    private readonly optFilm = this.selFilm.locator('option:not([disabled])')
+    private readonly optDate = this.selDate.locator('option:not([disabled])')
     constructor(page: Page) {
         super(page);
     }
 
     getCinemaOptions() {
-        return this.selCinema.locator('option')
+        return this.optCine
     }
 
     getFilmOptions() {
-        return this.selFilm.locator('option')
+        return this.optFilm
     }
 
     getDateOptions() {
-        return this.selDate.locator('option')
+        return this.optDate
     }
 
     getTxtAlert(): Locator {
