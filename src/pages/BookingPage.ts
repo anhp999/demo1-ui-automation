@@ -5,27 +5,60 @@ type BookingDetailsEle = 'price' | 'cine' | 'address' | 'screen' | 'showtimes' |
 export class BookingPage extends CommonPage {
 
     private readonly bookingDetailsRoot = this.page.locator("//div[contains(@class,'MuiGrid-root')]//div[contains(@class,'jss16')]")
-    private readonly btnAvailableSeats = this.page.locator('//button[not(@disabled)]')
-    private readonly btnBooking = this.page.getByRole('button', { name: 'ĐẶT VÉ' })
+    private readonly btnNormalSeats = this.page.locator("//button[not(contains(@class,'jss27'))]")
     private readonly btnVipSeats = this.page.locator("//button[contains(@class,'jss27'))]")
-    private readonly btnNormalSeats = this.page.locator("//button[not(contains(@class,'jss27')) and not(@disabled)]")
+
+    private readonly btnBooking = this.page.getByRole('button', { name: 'ĐẶT VÉ' })
+    private readonly btnAvailVipSeats = this.page.locator("//button[contains(@class,'jss27')) and not(@disabled)]")
+    private readonly btnAvailNormalSeats = this.page.locator("//button[not(contains(@class,'jss27')) and not(@disabled)]")
     private readonly txtPrice = this.page.locator("//div[contains(@class,'jss16')]//p[contains(@class,'MuiTypography-body1')]")
     // private readonly txtSeats = this.page.locator("//div[contains(@class,'jss16')]//p[contains(@class,'jss19')]")
     private readonly txtAlertTitle = this.page.locator("#swal2-title")
+    private readonly txtAlertContent = this.page.locator("#swal2-content")
     private readonly btnClose = this.page.locator(".swal2-close")
+    private readonly btnConfirm = this.page.getByRole('button', { name: 'Đồng ý' })
+    private readonly btnDeny = this.page.getByRole('button', { name: 'Không' })
+
     constructor(page: Page) {
         super(page);
     }
 
-    getSeatByNumber(seatNumber: string) {
-        return this.page.getByRole('button', { name: seatNumber, exact: true });
+    getBtnConfirm() {
+        return this.btnConfirm
+    }
+
+    getBtnDeny() {
+        return this.btnDeny
+    }
+
+    async getNumOfVipSeats() {
+        const numOfVipS = this.btnVipSeats
+        return numOfVipS.count()
+    }
+    
+    async getNumOfNormalSeats() {
+        const numOfNormalS = this.btnNormalSeats
+        return numOfNormalS.count()
     }
 
     async getTxtTitle() {
         return this.getText(this.txtAlertTitle)
     }
+    
+    async getTxtAlertContent() {
+        return this.getText(this.txtAlertContent)
+    }
+
     async clickBtnClose() {
         await this.btnClose.click()
+    }
+
+    async clickBtnConfirm() {
+        await this.btnConfirm.click()
+    }
+
+    async clickBtnDeny() {
+        await this.btnDeny.click()
     }
 
     async getDetailEle(ele: BookingDetailsEle) {
@@ -60,7 +93,7 @@ export class BookingPage extends CommonPage {
 
     async clickNormalSeat(numOfSeats: number) {
         let totalPrices = 0
-        const availSeats = this.btnNormalSeats
+        const availSeats = this.btnAvailNormalSeats
         const count = await availSeats.count();
         if (count === 0) return totalPrices;
         
@@ -78,8 +111,8 @@ export class BookingPage extends CommonPage {
     }
 
     async totalSeats(): Promise<number> {
-        const vipSeats = await this.btnVipSeats.count()
-        const normalSeats = await this.btnNormalSeats.count()
+        const vipSeats = await this.getNumOfVipSeats()
+        const normalSeats = await this.getNumOfNormalSeats()
         return vipSeats + normalSeats
     }
 
