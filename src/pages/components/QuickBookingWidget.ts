@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "@src/base/BasePage";
+import { BasePage } from "@src/pages/base/BasePage";
 
 export class QuickBookingWidget extends BasePage {
 

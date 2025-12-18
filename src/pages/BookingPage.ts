@@ -1,6 +1,6 @@
 
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "@src/common/CommonPage";
+import { CommonPage } from "@src/pages/common/CommonPage";
 type BookingDetailsEle = 'price' | 'cine' | 'address' | 'screen' | 'showtimes' | 'movie' | 'seats'
 export class BookingPage extends CommonPage {
 
@@ -12,7 +12,6 @@ export class BookingPage extends CommonPage {
     private readonly btnAvailVipSeats = this.page.locator("//button[contains(@class,'jss27')) and not(@disabled)]")
     private readonly btnAvailNormalSeats = this.page.locator("//button[not(contains(@class,'jss27')) and not(@disabled)]")
     private readonly txtPrice = this.page.locator("//div[contains(@class,'jss16')]//p[contains(@class,'MuiTypography-body1')]")
-    // private readonly txtSeats = this.page.locator("//div[contains(@class,'jss16')]//p[contains(@class,'jss19')]")
     private readonly txtAlertTitle = this.page.locator("#swal2-title")
     private readonly txtAlertContent = this.page.locator("#swal2-content")
     private readonly btnClose = this.page.locator(".swal2-close")

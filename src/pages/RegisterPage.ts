@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "../common/CommonPage";
+import { CommonPage } from "./common/CommonPage";
 import { LoginPage } from "./LoginPage";
 export type RegisterForm = {
     username: string

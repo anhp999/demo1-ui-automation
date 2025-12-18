@@ -1,10 +1,9 @@
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "@src/common/CommonPage";
+import { CommonPage } from "@src/pages/common/CommonPage";
 import { BookingPage } from "./BookingPage";
 
 export class DetailPage extends CommonPage {
     private readonly gridParent = this.page.locator("//div[contains(@class,'MuiGrid-container') and contains(@class,'jss24')]");
-    private readonly gridListCinesEle = this.page.locator('#cinemaList')
 
     private readonly lblDate = this.gridParent.locator("//h4[contains(@class,'MuiTypography-h4')]");
     private readonly lblTitle = this.page.locator("//h1[contains(@class,'MuiTypography-h1')]");

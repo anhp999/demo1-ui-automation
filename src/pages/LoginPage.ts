@@ -1,10 +1,12 @@
 import { Locator, Page } from "@playwright/test";
-import { CommonPage } from "../common/CommonPage";
+import { CommonPage } from "./common/CommonPage";
 import { RegisterPage } from "./RegisterPage";
+import { ROUTES } from "@src/config/routes";
 type LoginFields = 'account' | 'pwd'
 
 export class LoginPage extends CommonPage {
 
+    protected path = ROUTES.login
     readonly txtAccountLogin = this.page.getByRole('textbox', { name: 'Tài Khoản' });
     readonly txtPasswordLogin = this.page.getByRole('textbox', { name: 'Mật Khẩu' });
     readonly btnLogin = this.page.getByRole('button', { name: 'Đăng nhập' });
@@ -107,7 +109,7 @@ export class LoginPage extends CommonPage {
         return this.lnkRegis
     }
 
-    async directToLogin(): Promise<RegisterPage> {
+    async directToRegister(): Promise<RegisterPage> {
         await this.click(this.lnkRegis);
 
         return new RegisterPage(this.page)

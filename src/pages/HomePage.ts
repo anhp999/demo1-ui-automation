@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { CommonPage } from "@src/common/CommonPage";
+import { CommonPage } from "@src/pages/common/CommonPage";
 
 export class HomePage extends CommonPage {
 

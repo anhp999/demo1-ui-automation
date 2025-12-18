@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "@src/base/BasePage";
-import { QuickBookingWidget } from "@src/components/QuickBookingWidget";
-import { TopBarNavigation } from "@src/components/TopBarNavigation";
+import { BasePage } from "@src/pages/base/BasePage";
+import { QuickBookingWidget } from "@src/pages/components/QuickBookingWidget";
+import { TopBarNavigation } from "@src/pages/components/TopBarNavigation";
 
 export class CommonPage extends BasePage {
 

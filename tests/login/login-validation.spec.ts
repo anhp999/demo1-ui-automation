@@ -3,8 +3,7 @@ import { test, expect } from '../../src/fixtures/custom-fixtures';
 
 test.describe("Login Functional Test", () => {
   test("TC088: Valid Login Test", async ({ homePage, loginPage }) => {
-
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.navigateTo("");
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
