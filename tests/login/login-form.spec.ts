@@ -1,8 +1,8 @@
 import { test, expect } from '../../src/fixtures/custom-fixtures';
 import { getEnv } from '../../src/config/env/get-env';
-test.describe("Login Functional Test", () => {
+test.describe("Login Form", () => {
   test('TC-078: Ensure that the password characters are hidden when typing', async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     await loginPage.enterPassword('Test@1234');
@@ -11,7 +11,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test('TC-079: Toggle show/hide password', async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     await loginPage.enterPassword('Test@1234');
@@ -26,8 +26,7 @@ test.describe("Login Functional Test", () => {
   });
 
     test("TC-080: Verify Register Link In Login Form", async ({ loginPage }) => {
-      const loginUrl = `${getEnv('BASE_URL')}/sign-in`
-      await loginPage.navigateTo(loginUrl);
+      await loginPage.open();
       const link = loginPage.getLnkRegis()
       expect(link).toHaveCSS('color', 'rgb(0, 0, 238)')
 
@@ -39,9 +38,8 @@ test.describe("Login Functional Test", () => {
       expect(titleLogin).toStrictEqual('Đăng ký')
   });
 
-    test("TC-081: Verify Register Link In Login Form", async ({ loginPage }) => {
-      const loginUrl = `${getEnv('BASE_URL')}/sign-in`
-      await loginPage.navigateTo(loginUrl);
+    test("TC-081: Verify placeholder text In Login Form", async ({ loginPage }) => {
+      await loginPage.open();
       const txtPhAccount = await loginPage.getLblAccount()
       const actualAccount = 'Tài Khoản *'
       const txtPhPwd = await loginPage.getLblPwd()
@@ -52,8 +50,7 @@ test.describe("Login Functional Test", () => {
   });
 
     test("TC-085: Verify Register Input When Focus On Each One", async ({ loginPage }) => {
-      const loginUrl = `${getEnv('BASE_URL')}/sign-in`
-      await loginPage.navigateTo(loginUrl);
+      await loginPage.open();
       const actualLblAlert = 'Đây là trường bắt buộc !'
 
       await loginPage.focusInputFields('account')
@@ -71,7 +68,7 @@ test.describe("Login Functional Test", () => {
   });
 
     test("TC-087: Verify access the login page by login button", async ({ homePage, loginPage }) => {
-      await homePage.navigateTo("");
+      await homePage.open();
       await homePage.topBarNavigation.navigateLoginPage();
       expect(loginPage.getLblTitle()).toBeVisible()
   });

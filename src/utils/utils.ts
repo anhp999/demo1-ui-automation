@@ -202,6 +202,10 @@ export function generateStrongPassword(length = 10) {
     return mustHave.sort(() => Math.random() - 0.5).join('');
 }
 
+export function replacePath(path: string, replaceKey: string, replaceVal: string) {
+    return path.replace(replaceKey, replaceVal)
+}
+
 const random = (chars: string, length: number) =>
     Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 

@@ -1,7 +1,7 @@
 import { test, expect } from '../../src/fixtures/custom-fixtures';
 test.describe("Booking Widget", () => {
     test("TC0103: Verify list of cinemas based on movie", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         const film = '9387'
         const expectCount = 2
         await homePage.quickBookingWidget.selectFilm(film)
@@ -10,7 +10,7 @@ test.describe("Booking Widget", () => {
     })
 
     test("TC0104: Verify available date based on cinema and movie", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         const film = '9387'
         const cinema = 'cns-quoc-thanh'
         const expectCount = 1
@@ -20,18 +20,18 @@ test.describe("Booking Widget", () => {
         await expect(option).toHaveCount(expectCount)
     })
 
-    test("TC0110: Verify booking widget", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    test("TC0110: Verify booking widget", async ({ homePage, bookingPage }) => {
+        await homePage.open()
         const film = '9387'
         const cinema = 'cns-quoc-thanh'
         const date = '45052'
-        const url = `https://demo1.cybersoft.edu.vn/purchase/${date}`
-        await homePage.quickBookingWidget.bookingMoive(film, cinema, date)
-        expect(homePage.page).toHaveURL(url)
+        const path = bookingPage.getPathByParamId(date)
+        await homePage.quickBookingWidget.bookingMovie(film, cinema, date)
+        expect(bookingPage.page).toHaveURL(path)
     })
 
     test("TC0111: Verify if select only film", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         const film = '9387'
         await homePage.quickBookingWidget.selectFilm(film)
         await homePage.quickBookingWidget.buyTickets()
@@ -41,7 +41,7 @@ test.describe("Booking Widget", () => {
     })
 
     test("TC0112: Verify if not select date", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         const film = '9387'
         const cinema = 'cns-quoc-thanh'
         await homePage.quickBookingWidget.selectFilm(film)
@@ -53,7 +53,7 @@ test.describe("Booking Widget", () => {
     })
 
     test("TC0113: Verify if select nothing", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         await homePage.quickBookingWidget.buyTickets()
         
         const actualTitle = 'Bạn chưa chọn phim'
@@ -61,7 +61,7 @@ test.describe("Booking Widget", () => {
     })
 
     test("TC0114: Verify if showtime is current date", async ({ homePage }) => {
-        await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+        await homePage.open()
         
         const film = '9387'
         const cinema = 'cns-quoc-thanh'

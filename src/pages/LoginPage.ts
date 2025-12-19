@@ -2,11 +2,12 @@ import { Locator, Page } from "@playwright/test";
 import { CommonPage } from "./common/CommonPage";
 import { RegisterPage } from "./RegisterPage";
 import { ROUTES } from "@src/config/routes";
+import { ENV } from "@src/config/env";
 type LoginFields = 'account' | 'pwd'
 
 export class LoginPage extends CommonPage {
 
-    protected path = ROUTES.login
+    static readonly path = ROUTES.LOGIN
     readonly txtAccountLogin = this.page.getByRole('textbox', { name: 'Tài Khoản' });
     readonly txtPasswordLogin = this.page.getByRole('textbox', { name: 'Mật Khẩu' });
     readonly btnLogin = this.page.getByRole('button', { name: 'Đăng nhập' });
@@ -24,6 +25,10 @@ export class LoginPage extends CommonPage {
 
     constructor(page: Page) {
         super(page);
+    }
+
+    async open() {
+        await this.navigateTo(LoginPage.path)
     }
 
     getLoginMsgLocator(): Locator {

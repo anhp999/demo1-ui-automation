@@ -10,8 +10,8 @@ export class BasePage {
         this.page = page;
     }
 
-    async navigateTo(url: string) {
-        await this.page.goto(url);
+    async navigateTo(path = '') {
+        await this.page.goto(path);
     }
 
     async click(locator: PlaywrightLocator) {

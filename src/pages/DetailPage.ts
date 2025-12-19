@@ -1,8 +1,11 @@
 import { Locator, Page } from "@playwright/test";
 import { CommonPage } from "@src/pages/common/CommonPage";
 import { BookingPage } from "./BookingPage";
+import { ROUTES } from "@src/config/routes";
 
 export class DetailPage extends CommonPage {
+
+    static readonly path = ROUTES.ITEMDETAIL
     private readonly gridParent = this.page.locator("//div[contains(@class,'MuiGrid-container') and contains(@class,'jss24')]");
 
     private readonly lblDate = this.gridParent.locator("//h4[contains(@class,'MuiTypography-h4')]");
@@ -24,6 +27,11 @@ export class DetailPage extends CommonPage {
 
     constructor(page: Page) {
         super(page);
+    }
+
+    async openPageById(itemId: string) {
+        const fullPath = DetailPage.path.replace(':id', itemId)
+        await this.navigateTo(fullPath)
     }
 
     getBanner(): Locator {

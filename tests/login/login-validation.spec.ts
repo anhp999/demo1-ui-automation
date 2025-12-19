@@ -1,9 +1,10 @@
 import { readDataFromSheet } from '@src/utils/utils';
 import { test, expect } from '../../src/fixtures/custom-fixtures';
+import { HomePage } from '@src/pages/HomePage';
 
-test.describe("Login Functional Test", () => {
+test.describe("Login Validation", () => {
   test("TC088: Valid Login Test", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -19,11 +20,11 @@ test.describe("Login Functional Test", () => {
     await expect(
       homePage.topBarNavigation.getUserProfileLocator(fullname)
     ).toBeVisible();
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await expect(homePage.page).toHaveURL(HomePage.path)
   });
 
   test("TC089: Verify logout", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -36,11 +37,11 @@ test.describe("Login Functional Test", () => {
 
     await loginPage.topBarNavigation.logout()
     expect(loginPage.topBarNavigation.getLnkLogin()).toBeVisible()
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await expect(homePage.page).toHaveURL(HomePage.path)
   });
 
   test("TC090: Verify remember account", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -58,7 +59,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test("TC091: Verify without remembering account", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -75,7 +76,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test("TC092: Login with invalid account", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const username = "notexistedaccount0"
@@ -90,7 +91,7 @@ test.describe("Login Functional Test", () => {
     expect(loginPage.getLblAlert()).toHaveText(actualAlertMsg)
   });
   test("TC093: Login with empty account", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const username = ""
@@ -107,7 +108,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test("TC094: Login with empty password", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const username = "notexistedaccount0"
@@ -124,7 +125,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test("TC095: Login with account contains spaces", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -143,7 +144,7 @@ test.describe("Login Functional Test", () => {
   });
 
   test("TC096: Login by pressing Enter", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
 
     const data = await readDataFromSheet()
@@ -155,12 +156,12 @@ test.describe("Login Functional Test", () => {
     );
 
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await expect(homePage.page).toHaveURL(HomePage.path)
 
   });
 
   test("TC097: Login failed 4 times", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
     const n = 4
     const username = "notexistedaccount0"
@@ -178,7 +179,7 @@ test.describe("Login Functional Test", () => {
     expect(loginPage.getLblAlert()).toHaveText(actualAlertMsg)
   });
   test("TC0100: Login failed 6 times", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
     const n = 6
     const data = await readDataFromSheet()
@@ -202,11 +203,11 @@ test.describe("Login Functional Test", () => {
     await expect(
       homePage.topBarNavigation.getUserProfileLocator(fullname)
     ).toBeVisible();
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await expect(homePage.page).toHaveURL(HomePage.path)
   });
 
   test("TC0101: Access login page after login successfully", async ({ homePage, loginPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
     const data = await readDataFromSheet()
     const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
@@ -218,15 +219,14 @@ test.describe("Login Functional Test", () => {
     );
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
 
-    await loginPage.navigateTo('https://demo1.cybersoft.edu.vn/sign-in')
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await loginPage.open()
+    await expect(homePage.page).toHaveURL(HomePage.path)
 
   });
 
   test("TC0102: Access register page after login successfully", async ({ homePage, loginPage, registerPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open();
     await homePage.topBarNavigation.navigateLoginPage();
-    const n = 6
     const data = await readDataFromSheet()
     const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
     const password = data[0]?.Password || "Test123456@"
@@ -237,7 +237,7 @@ test.describe("Login Functional Test", () => {
     );
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
 
-    await registerPage.navigateTo('https://demo1.cybersoft.edu.vn/sign-up')
-    await expect(homePage.page).toHaveURL("https://demo1.cybersoft.edu.vn/")
+    await registerPage.open()
+    await expect(homePage.page).toHaveURL(HomePage.path)
   });
 });

@@ -1,9 +1,11 @@
 import { readDataFromSheet } from '@src/utils/utils';
 import { test, expect } from '../../src/fixtures/custom-fixtures';
+import { LoginPage } from '@src/pages/LoginPage';
 test.describe("Booking Movies Flow", () => {
 
   test('TC0130: Verify number of seats', async ({ bookingPage }) => {
-    await bookingPage.navigateTo(`https://demo1.cybersoft.edu.vn/purchase/45056`)
+    const id = '45056'
+    await bookingPage.openPageById(id)
     const expectTotalSeats = 160
     const expectNumOfVipS = 72
     const expectNumOfNormalS = 88
@@ -15,13 +17,12 @@ test.describe("Booking Movies Flow", () => {
   })
 
   test("TC0144: Verify booking movie by confirm to login", async ({ homePage, loginPage, bookingPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open()
     const expectTitle = "Bạn chưa đăng nhập"
     const expectContent = "Bạn có muốn đăng nhập không ?"
 
     const movieId = '45056'
-    const url = `https://demo1.cybersoft.edu.vn/purchase/${movieId}`
-    await bookingPage.navigateTo(url)
+    const path = await bookingPage.openPageById(movieId)
     const selectedSeats = await bookingPage.getDetailEle('seats')
     expect(selectedSeats?.length).toBeGreaterThan(0)
 
@@ -30,7 +31,7 @@ test.describe("Booking Movies Flow", () => {
     expect(await bookingPage.getTxtAlertContent()).toStrictEqual(expectContent)
 
     await bookingPage.clickBtnConfirm()
-    expect(loginPage.page).toHaveURL(`https://demo1.cybersoft.edu.vn/sign-in`)
+    expect(loginPage.page).toHaveURL(LoginPage.path)
 
     const data = await readDataFromSheet()
     const username = data[0]?.Username || "Testaefad88de3ff4ca2b9d3679f1199415c"
@@ -40,17 +41,16 @@ test.describe("Booking Movies Flow", () => {
       password
     );
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
-
-    expect(bookingPage.page).toHaveURL(url)
+    expect(bookingPage.page).toHaveURL(path)
   })
 
     test("TC0145: Verify booking movie by deny to login", async ({ homePage, bookingPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open()
     const expectTitle = "Bạn chưa đăng nhập"
     const expectContent = "Bạn có muốn đăng nhập không ?"
 
     const movieId = '45056'
-    await bookingPage.navigateTo(`https://demo1.cybersoft.edu.vn/purchase/${movieId}`)
+    await bookingPage.openPageById(movieId)
     const selectedSeats = await bookingPage.getDetailEle('seats')
     expect(selectedSeats?.length).toBeGreaterThan(0)
 
@@ -63,10 +63,10 @@ test.describe("Booking Movies Flow", () => {
   })
 
   test("TC0146: Verify booking movie after login successfully", async ({ homePage, loginPage, bookingPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open()
     await homePage.topBarNavigation.navigateLoginPage();
     const expectTxtPrices = '0VND'
-    const expectTotalPrices = 75000//165000
+    const expectTotalPrices = 75000
     const expectTitle = "Đặt vé thành công"
     const expectContent = "Kiểm tra trong lịch sử đặt vé"
 
@@ -80,8 +80,7 @@ test.describe("Booking Movies Flow", () => {
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
 
     const movieId = '45056'
-    const url = `https://demo1.cybersoft.edu.vn/purchase/${movieId}`
-    await bookingPage.navigateTo(url)
+    const path = await bookingPage.openPageById(movieId)
     const txtPrices = await bookingPage.getDetailEle('price')
     expect(txtPrices).toStrictEqual(expectTxtPrices)
 
@@ -96,11 +95,11 @@ test.describe("Booking Movies Flow", () => {
     expect(await bookingPage.getTxtAlertContent()).toStrictEqual(expectContent)
 
     await bookingPage.clickBtnConfirm()
-    expect(bookingPage.page).toHaveURL(url)
+    expect(bookingPage.page).toHaveURL(path)
   })
 
     test("TC0147: Verify clicking the Buy Ticket button when logged in without selecting tickets", async ({ homePage, loginPage, detailPage, bookingPage }) => {
-    await homePage.navigateTo("https://demo1.cybersoft.edu.vn/");
+    await homePage.open()
     await homePage.topBarNavigation.navigateLoginPage();
     const expectAlert = "Bạn chưa chọn ghế"
     const data = await readDataFromSheet()
@@ -113,7 +112,7 @@ test.describe("Booking Movies Flow", () => {
     await expect(loginPage.getLoginMsgLocator()).toBeVisible();
 
     const movieId = '45056'
-    await bookingPage.navigateTo(`https://demo1.cybersoft.edu.vn/purchase/${movieId}`)
+    await bookingPage.openPageById(movieId)
     await bookingPage.clickBooking()
     expect(await bookingPage.getTxtTitle()).toStrictEqual(expectAlert)
   })

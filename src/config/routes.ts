@@ -1,5 +1,7 @@
 export const ROUTES = {
-  home: '/',
-  login: '/sign-in',
-  register: '/sign-up'
+  HOME: '/',
+  LOGIN: '/sign-in',
+  REGISTER: '/sign-up',
+  ITEMDETAIL: '/detail/:id',
+  PURCHASEITEM: '/purchase/:id'
 } as const;

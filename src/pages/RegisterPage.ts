@@ -1,6 +1,8 @@
 import { Locator, Page } from "@playwright/test";
 import { CommonPage } from "./common/CommonPage";
 import { LoginPage } from "./LoginPage";
+import { ROUTES } from "@src/config/routes";
+import { ENV } from "@src/config/env";
 export type RegisterForm = {
     username: string
     pwd: string
@@ -11,6 +13,7 @@ export type RegisterForm = {
 type RegisterFields = 'account' | 'pwd' | 'confirm_pwd' | 'fullname' | 'email'
 export class RegisterPage extends CommonPage {
 
+    static readonly path = ROUTES.REGISTER
     private readonly txtAccountRegis = this.page.getByRole('textbox', { name: 'Tài Khoản' });
     private readonly txtPwdRegis = this.page.getByRole('textbox', { name: 'Mật Khẩu', exact: true });
     private readonly txtConfirmPwd = this.page.getByRole('textbox', { name: 'Nhập lại mật khẩu' });
@@ -47,6 +50,10 @@ export class RegisterPage extends CommonPage {
     readonly taikhoan = this.page.locator('.MuiOutlinedInput-root.Mui-error fieldset')
     constructor(page: Page) {
         super(page);
+    }
+
+    async open() {
+        await this.navigateTo(RegisterPage.path)
     }
 
     getTxtAccountRegis(): Locator {

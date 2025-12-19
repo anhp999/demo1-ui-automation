@@ -53,7 +53,7 @@ export class QuickBookingWidget extends BasePage {
         await this.btnBuyTicket.click()
     }
 
-    async bookingMoive(movie: string, cine: string, date: string) {
+    async bookingMovie(movie: string, cine: string, date: string) {
         await this.selectFilm(movie)
         await this.selectCinema(cine)
         await this.selectDate(date)

@@ -1,9 +1,12 @@
 
 import { Locator, Page } from "@playwright/test";
+import { ROUTES } from "@src/config/routes";
 import { CommonPage } from "@src/pages/common/CommonPage";
+import { replacePath } from "@src/utils/utils";
 type BookingDetailsEle = 'price' | 'cine' | 'address' | 'screen' | 'showtimes' | 'movie' | 'seats'
 export class BookingPage extends CommonPage {
 
+    static readonly path = ROUTES.PURCHASEITEM
     private readonly bookingDetailsRoot = this.page.locator("//div[contains(@class,'MuiGrid-root')]//div[contains(@class,'jss16')]")
     private readonly btnNormalSeats = this.page.locator("//button[not(contains(@class,'jss27'))]")
     private readonly btnVipSeats = this.page.locator("//button[contains(@class,'jss27'))]")
@@ -20,6 +23,16 @@ export class BookingPage extends CommonPage {
 
     constructor(page: Page) {
         super(page);
+    }
+
+    async openPageById(itemId: string): Promise<string> {
+        const fullPath = this.getPathByParamId(itemId)
+        await this.navigateTo(fullPath)
+        return fullPath
+    }
+
+    getPathByParamId(id: string) {
+        return replacePath(BookingPage.path,':id', id)
     }
 
     getBtnConfirm() {
